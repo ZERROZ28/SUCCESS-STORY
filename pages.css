@@ -262,6 +262,7 @@
 .page-title .accent {
     display: block;
     font-family: 'Optiborden', cursive;
+    letter-spacing: 0.15rem;
     font-style: normal;
     font-weight: 400;
     font-size: clamp(2.3rem, 8.5vw, 3.4rem);
@@ -914,7 +915,7 @@
 .vitrine-page-title {
     font-family: 'Oswald', sans-serif;
     font-weight: 500;
-    font-size: clamp(1.6rem, 5vw, 2.4rem);
+    font-size: clamp(2rem, 5vw, 2.4rem);
     padding: 0.5rem 2rem 2rem;
     line-height: 1;
 
@@ -928,9 +929,10 @@
 .vitrine-page-title span {
     display: inline-block;
     font-family: 'Optiborden', cursive;
+    letter-spacing: 0.15rem;
     font-style: normal;
     font-weight: 400;
-    font-size: clamp(1.9rem, 6vw, 3rem);
+    font-size: clamp(2.3rem, 6vw, 3rem);
     color: #f3e5ab;
     line-height: 1;
 }

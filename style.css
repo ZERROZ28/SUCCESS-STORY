@@ -311,6 +311,7 @@ h2 {
 h2 span {
     display: inline-block;
     font-family: 'Optiborden', cursive;
+    letter-spacing: 0.15rem;
     text-transform: none;
     font-style: normal;
     font-weight: 400;
