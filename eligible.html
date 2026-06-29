@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vous êtes éligible ! - Success Story by SNEP</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="pages.css">
+</head>
+<body>
+
+    <div class="page-shell has-glow screen-fit">
+        <header class="page-header">
+            <a href="index.html" class="logo-static">
+                <img src="src/LogoSite.svg" alt="Success Story by SNEP">
+            </a>
+        </header>
+
+        <main class="page-main login-shell">
+            <h1 class="page-title eligible-title">Vous êtes éligible !</h1>
+
+            <div class="eligibility-card">
+                <svg class="check-ring" viewBox="0 0 130 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="65" cy="65" r="55" stroke-dasharray="290 60"/>
+                    <path d="M40 67l17 17 33-36" />
+                </svg>
+
+                <p class="identifiant-label">Votre identifiant est</p>
+                <p class="identifiant-value" id="identifiant-value">------</p>
+            </div>
+
+            <div class="cta-center">
+                <a href="connexion.html" class="btn-link">
+                    Configurer <span class="accent">mon compte</span>
+                </a>
+            </div>
+        </main>
+
+        <footer class="site-footer">
+            <a href="index.html" class="logo-footer">
+                <img src="src/LogoSite.svg" alt="Success Story by SNEP">
+            </a>
+            <nav>
+                <a href="#">CGV</a>
+                <a href="#">CGU</a>
+                <a href="#">Cookie</a>
+            </nav>
+        </footer>
+    </div>
+
+    <script src="pages.js"></script>
+    <script>
+        // Génère un identifiant à 6 chiffres, comme dans la maquette (096324).
+        document.getElementById('identifiant-value').textContent =
+            String(Math.floor(100000 + Math.random() * 900000));
+    </script>
+</body>
+</html>

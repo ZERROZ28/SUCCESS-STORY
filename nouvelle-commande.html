@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nouvelle commande - Success Story by SNEP</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="pages.css">
+</head>
+<body>
+
+    <div class="page-shell has-bars">
+        <div class="bars-bg"></div>
+        <div class="bars-vignette"></div>
+
+        <header class="page-header">
+            <a href="compte.html" class="logo-static">
+                <img src="src/LogoSite.svg" alt="Success Story by SNEP">
+            </a>
+        </header>
+
+        <main class="page-main">
+            <h1 class="page-title">Vos témoignages<span class="accent">de réussite</span></h1>
+
+            <form id="commande-form" novalidate>
+                <div class="field">
+                    <input type="text" id="projet" placeholder="Quel est le nom du projet ?" data-required>
+                </div>
+
+                <div class="upload-hint">
+                    <span>Envoyez-nous vôtre chef-d'œuvre&nbsp;!</span>
+                    <span class="info-dot">i</span>
+                </div>
+
+                <label class="upload-zone" id="upload-zone">
+                    <input type="file" accept="image/*,.pdf" multiple>
+                    <svg class="upload-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 3v13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M7 12l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M5 20h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                    <span class="upload-filename" style="display:none;"></span>
+                </label>
+
+                <div class="field">
+                    <textarea id="idees" placeholder="Donnez-nous vos idées design..."></textarea>
+                </div>
+
+                <div class="cta-center">
+                    <button type="submit" id="commande-submit" class="btn-link is-disabled">
+                        Demander un <span class="accent">devis</span>
+                    </button>
+                </div>
+            </form>
+        </main>
+
+        <footer class="site-footer">
+            <a href="index.html" class="logo-footer">
+                <img src="src/LogoSite.svg" alt="Success Story by SNEP">
+            </a>
+            <nav>
+                <a href="#">CGV</a>
+                <a href="#">CGU</a>
+                <a href="#">Cookie</a>
+            </nav>
+        </footer>
+    </div>
+
+    <script src="pages.js"></script>
+    <script>
+        initUploadZone('#upload-zone');
+        initFormGate('#commande-form', '#commande-submit');
+
+        document.getElementById('commande-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (document.getElementById('commande-submit').classList.contains('is-disabled')) return;
+            window.location.href = 'compte.html?commande=' + encodeURIComponent(document.getElementById('projet').value || 'Nouveau projet');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion - Success Story by SNEP</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="pages.css">
+</head>
+<body>
+
+    <div class="page-shell has-glow">
+        <main class="page-main login-shell">
+            <h1 class="page-title">Entrez votre identifiant</h1>
+
+            <form id="login-form" novalidate style="width:100%;">
+                <div class="field">
+                    <input type="text" id="login-identifiant" placeholder="" data-required autofocus>
+                </div>
+                <a href="temoignage.html" class="login-helper">Vous n'en avez pas encore&nbsp;?</a>
+
+                <div class="cta-center">
+                    <button type="submit" id="login-submit" class="btn-link full-accent is-disabled">
+                        Se connecter
+                    </button>
+                </div>
+            </form>
+        </main>
+
+        <footer class="site-footer">
+            <a href="index.html" class="logo-footer">
+                <img src="src/LogoSite.svg" alt="Success Story by SNEP">
+            </a>
+            <nav>
+                <a href="#">CGV</a>
+                <a href="#">CGU</a>
+                <a href="#">Cookie</a>
+            </nav>
+        </footer>
+    </div>
+
+    <script src="pages.js"></script>
+    <script>
+        initFormGate('#login-form', '#login-submit');
+
+        document.getElementById('login-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (document.getElementById('login-submit').classList.contains('is-disabled')) return;
+            window.location.href = 'compte.html';
+        });
+    </script>
+</body>
+</html>

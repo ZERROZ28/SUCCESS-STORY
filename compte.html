@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon compte - Success Story by SNEP</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="pages.css">
+</head>
+<body>
+
+    <div class="page-shell has-glow">
+        <header class="page-header">
+            <a href="index.html" class="logo-static">
+                <img src="src/LogoSite.svg" alt="Success Story by SNEP">
+            </a>
+        </header>
+
+        <main class="page-main">
+            <h1 class="account-greeting">Bonjour, <strong id="user-name">BAEOASBEATS</strong></h1>
+
+            <section class="account-block">
+                <h2 class="account-section-title">Vos commandes récentes</h2>
+                <div class="account-grid">
+                    <figure>
+                        <img src="path/to/art-1.jpg" alt="Commande récente 1">
+                    </figure>
+                    <figure>
+                        <img src="path/to/art-2.jpg" alt="Commande récente 2" class="grayscale">
+                    </figure>
+                </div>
+                <div class="account-cta-row">
+                    <a href="nouvelle-commande.html" class="btn-solid">Nouvelle commande</a>
+                </div>
+            </section>
+
+            <section class="account-block">
+                <h2 class="account-section-title">Vos commandes en cours</h2>
+                <div class="orders-grid" id="orders-grid">
+                    <!-- généré en JS selon qu'il existe une commande en cours ou non -->
+                </div>
+            </section>
+
+            <section class="account-block">
+                <h2 class="account-section-title">En manque d'idée design&nbsp;?</h2>
+                <div class="account-grid">
+                    <figure>
+                        <img src="path/to/art-1.jpg" alt="Inspiration 1">
+                    </figure>
+                    <figure>
+                        <img src="path/to/art-2.jpg" alt="Inspiration 2" class="grayscale">
+                    </figure>
+                </div>
+                <div class="account-cta-row">
+                    <a href="vitrine.html" class="btn-solid">Voir la vitrine</a>
+                </div>
+            </section>
+        </main>
+
+        <footer class="site-footer">
+            <a href="index.html" class="logo-footer">
+                <img src="src/LogoSite.svg" alt="Success Story by SNEP">
+            </a>
+            <nav>
+                <a href="#">CGV</a>
+                <a href="#">CGU</a>
+                <a href="#">Cookie</a>
+            </nav>
+        </footer>
+    </div>
+
+    <script src="pages.js"></script>
+    <script>
+        // Démo : ajoute ?commande=CDCv2 à l'URL pour afficher une commande
+        // en cours (maquette page 8). Sans paramètre : état vide (maquette page 6).
+        const params = new URLSearchParams(window.location.search);
+        const commandeEnCours = params.get('commande');
+        const grid = document.getElementById('orders-grid');
+
+        if (commandeEnCours) {
+            grid.innerHTML = `
+                <a href="nouvelle-commande.html" class="order-card">
+                    <img src="path/to/art-1.jpg" alt="${commandeEnCours}">
+                    <span class="order-name">"${commandeEnCours}"</span>
+                    <svg class="order-arrow" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </a>
+                <a href="nouvelle-commande.html" class="order-card-empty">
+                    <span class="plus-circle">+</span>
+                </a>
+            `;
+        } else {
+            grid.innerHTML = `
+                <a href="nouvelle-commande.html" class="order-card-empty" style="grid-column: 1 / -1;">
+                    <span class="plus-circle">+</span>
+                </a>
+            `;
+        }
+    </script>
+</body>
+</html>

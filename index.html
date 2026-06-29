@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Success Story - 3D Scroll</title>
+
+    <!-- Google Fonts : Oswald, famille complète (200 à 700, romain + italique) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="pages.css">
+</head>
+<body>
+
+    <div class="gltf-pin-container">
+        <canvas id="webgl"></canvas>
+        <div class="fade-to-black"></div>
+        <div class="overlay-background"></div>
+        <div class="overlay-background layer-2"></div>
+        <div class="overlay-vignette"></div>
+
+        <header class="ui-container">
+            <div class="logo" id="main-logo">
+                <img src="src/LogoSite.svg" alt="Success Story by SNEP">
+            </div>
+
+            <a href="temoignage.html" class="contact-btn" id="contact-btn">Prendre contact</a>
+        </header>
+    </div>
+
+    <main class="scroll-container">
+        <section class="section content-section vitrine-section">
+            <div class="container">
+                <h2>Ils nous font <span>confiance</span></h2>
+            </div>
+            <div class="vitrine-strip">
+                <figure class="vitrine-col">
+                    <img src="src/artiste-alicante.jpg" alt="Disque Alicante remis à l'artiste">
+                </figure>
+                <figure class="vitrine-col vitrine-col--mobile-hide">
+                    <img src="src/artiste-gmk.jpg" alt="Disques GMK remis aux artistes">
+                </figure>
+                <figure class="vitrine-col vitrine-col--mobile-hide">
+                    <img src="src/artiste-capitale-du-crime.jpg" alt="Disque Capitale du Crime remis sur scène">
+                </figure>
+                <figure class="vitrine-col">
+                    <img src="src/artiste-balade.jpg" alt="Disque Balade remis sur scène">
+                </figure>
+
+                <a href="vitrine.html" class="btn-solid vitrine-cta">Voir la vitrine</a>
+            </div>
+        </section>
+
+        <section class="section content-section compact-section about-section">
+            <div class="container about-container">
+                <figure class="about-media">
+                    <img src="src/artiste-lafouine.jpg" alt="Lafouine recevant son disque de certification SNEP">
+                </figure>
+                <div class="about-text">
+                    <h2>Qui <span>sommes-nous ?</span></h2>
+                    <p>Success Story conçoit et fabrique les disques de certification 
+                        officielle remis aux professionnels de l'industrie musicale : 
+                        artistes, producteurs, labels et équipes ayant atteint un seuil de certification SNEP 
+                        (or, platine ou diamant). Une fois le constat de l'OCC établi, nous transformons cette 
+                        reconnaissance en objet physique, à la hauteur de l'équivalent-ventes obtenu.</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider" role="separator" aria-hidden="true">
+            <span class="section-divider__line"></span>
+        </div>
+
+        <section class="section content-section compact-section" id="contact">
+            <div class="container">
+                <h2>Vous voulez valoriser <span>votre travail ?</span></h2>
+                <p>Single ou album, certifié or, platine ou diamant : 
+                    chaque palier mérite d'être représenté à sa juste valeur. 
+                    Transmettez-nous votre certification SNEP, nous nous occupons de 
+                    la conception et de la fabrication du disque.</p>
+                <div class="cta-center">
+                    <a href="temoignage.html" class="btn-link full-accent">Contactez-nous</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <a href="index.html" class="logo-footer">
+            <img src="src/LogoSite.svg" alt="Success Story by SNEP">
+        </a>
+        <nav>
+            <a href="#">CGV</a>
+            <a href="#">CGU</a>
+            <a href="#">Cookie</a>
+        </nav>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
