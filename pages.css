@@ -967,16 +967,12 @@
     transition: transform 0.5s ease, filter 0.4s ease;
 }
 
-.vitrine-tile:hover img {
+.vitrine-tile:hover > img {
     transform: scale(1.03);
     filter: brightness(0.3);
 }
 
-/* Voile sombre supplémentaire, indépendant du filter sur l'image : un
-   simple brightness() ne suffit pas à garantir la lisibilité du texte
-   et du logo sur des photos très claires ou très saturées (ex: fond
-   rouge vif). Ce calque assure un fond suffisamment sombre dans tous
-   les cas. */
+/* Voile sombre, derrière le logo et le texte (z-index 1). */
 .vitrine-tile::after {
     content: '';
     position: absolute;
@@ -984,7 +980,7 @@
     background: rgba(0, 0, 0, 0.7);
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.25s ease;
+    transition: opacity 0.3s ease;
     z-index: 1;
 }
 
@@ -993,8 +989,7 @@
 }
 
 /* Overlay au hover : logo de l'artiste centré et assez grand, avec le
-   nom du projet en dessous. Caché par défaut (opacity 0 + scale léger),
-   apparaît en fondu doux au survol de la vignette. */
+   nom du projet en dessous. Toujours au-dessus du voile sombre (z-index 2). */
 .vitrine-tile-overlay {
     position: absolute;
     inset: 0;
@@ -1009,7 +1004,7 @@
     opacity: 0;
     transform: scale(0.96);
     pointer-events: none;
-    transition: opacity 0.35s ease 0.1s, transform 0.35s ease 0.1s;
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .vitrine-tile:hover .vitrine-tile-overlay {
@@ -1022,10 +1017,8 @@ img.vitrine-tile-logo {
     height: 56px;
     max-width: 70%;
     object-fit: contain;
-    /* Force le logo en blanc peu importe ses couleurs natives (SVG ou
-       bitmap) : brightness(0) ramène tout à du noir, invert(1) bascule
-       ensuite ce noir en blanc pur. */
-    filter: brightness(0) invert(1) drop-shadow(0 2px 10px rgba(0, 0, 0, 0.7));
+    /* Force le logo en blanc peu importe ses couleurs natives. */
+    filter: brightness(0) invert(1);
 }
 
 .vitrine-tile-text {
