@@ -58,7 +58,7 @@ function initUploadZone(zoneSelector) {
 
 /**
  * Active/désactive un bouton selon le remplissage des champs requis
- * contenus dans le formulaire donné.
+ * contenus dans le formulaire donné et la validité de l'e-mail si présent.
  */
 function initFormGate(formSelector, btnSelector) {
     const form = document.querySelector(formSelector);
@@ -66,13 +66,31 @@ function initFormGate(formSelector, btnSelector) {
     if (!form || !btn) return;
 
     const requiredFields = Array.from(form.querySelectorAll('[data-required]'));
+    const emailField = form.querySelector('input[type="email"]');
+
+    // Expression régulière pour un e-mail au format réaliste et valide (ex: texte@domaine.extension)
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
     const check = () => {
+        // 1. Vérification que tous les champs requis sont remplis
         const allFilled = requiredFields.every((f) => f.value.trim().length > 0);
-        btn.classList.toggle('is-disabled', !allFilled);
+        
+        // 2. Vérification de la validité du format de l'e-mail s'il y en a un
+        let isEmailValid = true;
+        if (emailField) {
+            isEmailValid = emailRegex.test(emailField.value.trim());
+        }
+
+        // Le bouton est activé uniquement si tout est rempli ET l'email est valide
+        const isValid = allFilled && isEmailValid;
+        btn.classList.toggle('is-disabled', !isValid);
     };
 
     requiredFields.forEach((f) => f.addEventListener('input', check));
+    if (emailField) {
+        emailField.addEventListener('input', check);
+    }
+    
     check();
 }
 

@@ -274,7 +274,7 @@ function initScrollAnimations() {
         <div class="logo-sticky">
             <img src="src/LogoSite.svg" alt="Success Story by SNEP">
         </div>
-        <a href="#contact" class="contact-btn-sticky">Prendre contact !</a>
+        <a href="connexion.html" class="contact-btn-sticky">Se connecter</a>
     `;
     document.body.appendChild(stickyHeader);
 
