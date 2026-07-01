@@ -165,6 +165,24 @@
     animation: tmFadeRise 0.5s ease-out 0.54s forwards;
 }
 
+/* Champs isolés (sans .field-row), utilisés notamment sur la page
+   "nouvelle commande" : mêmes timings que la cascade ci-dessus, l'un
+   avant la zone d'upload, l'autre juste après. */
+.page-shell.has-bars .field-reveal-1 {
+    opacity: 0;
+    animation: tmFadeRise 0.5s ease-out 0.3s forwards;
+}
+
+.page-shell.has-bars .order-avatar-picker {
+    opacity: 0;
+    animation: tmFadeRise 0.5s ease-out 0.42s forwards;
+}
+
+.page-shell.has-bars .field-reveal-2 {
+    opacity: 0;
+    animation: tmFadeRise 0.5s ease-out 0.72s forwards;
+}
+
 .page-shell.has-bars .upload-zone {
     opacity: 0;
     animation: tmFadeRise 0.55s ease-out 0.66s forwards;
@@ -193,6 +211,9 @@
     .page-shell.has-bars .page-lede,
     .page-shell.has-bars .field-row,
     .page-shell.has-bars .field-row + .field,
+    .page-shell.has-bars .field-reveal-1,
+    .page-shell.has-bars .field-reveal-2,
+    .page-shell.has-bars .order-avatar-picker,
     .page-shell.has-bars .upload-hint,
     .page-shell.has-bars .upload-zone,
     .page-shell.has-bars .cta-center {
@@ -539,7 +560,7 @@
     justify-content: center;
     font-size: 0.7rem;
     color: #f3e5ab;
-    font-style: italic;
+    font-style: normal;
     font-family: 'Oswald', sans-serif;
     flex-shrink: 0;
     background: none;
@@ -548,9 +569,16 @@
     line-height: 1;
 }
 
-/* Conteneur relatif pour pouvoir positionner le popup par rapport au "i" */
+/* Conteneur relatif pour pouvoir positionner le popup par rapport au "i".
+   z-index explicite nécessaire car .upload-hint ET .upload-zone ont chacune
+   une animation d'opacité (voir plus haut), ce qui crée pour chacune un
+   contexte d'empilement propre avec z-index:auto. Sans cette valeur, les
+   deux contextes sont à égalité et .upload-zone (qui suit dans le HTML)
+   passe devant, y compris devant le popup d'info malgré son z-index:20
+   local. */
 .upload-hint {
     position: relative;
+    z-index: 2;
 }
 
 /* Popup d'information : caché par défaut, apparaît au hover ou au clic
@@ -659,6 +687,81 @@
 
 .upload-zone input[type="file"] {
     display: none;
+}
+
+/* Sélecteur d'image "profil" de la commande : vignette circulaire,
+   distincte de la grande zone de dépôt (documents/certification).
+   Cette image sert d'illustration à la carte "commande en cours"
+   sur la page compte. */
+/* Sélecteur d'image "profil" de la commande : vignette carrée,
+   distincte de la grande zone de dépôt (documents/certification).
+   Cette image sert d'illustration à la carte "commande en cours"
+   sur la page compte. À vide, un carré sombre proche du fond (même
+   teinte que .order-card) plutôt qu'un cadre blanc trop contrasté
+   avec la DA. */
+.order-avatar-picker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    text-align: center;
+    margin: 0 auto 1.5rem;
+}
+
+.order-avatar-upload {
+    position: relative;
+    width: 96px;
+    height: 96px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    cursor: pointer;
+    background: #1a1410 center / cover no-repeat;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+    overflow: hidden;
+}
+
+.order-avatar-upload:hover {
+    border-color: rgba(243, 229, 171, 0.35);
+}
+
+.order-avatar-upload input[type="file"] {
+    display: none;
+}
+
+.order-avatar-upload svg {
+    width: 22px;
+    height: 22px;
+    stroke: rgba(255, 255, 255, 0.35);
+    pointer-events: none;
+}
+
+.order-avatar-upload.has-image svg {
+    display: none;
+}
+
+.order-avatar-caption {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.order-avatar-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.95rem;
+    color: #ffffff;
+    font-weight: 400;
+}
+
+.order-avatar-sub {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.55);
+    font-weight: 300;
 }
 
 /* ----------------------------------------------------------------------------
@@ -1060,7 +1163,19 @@
     margin: 0;
     text-align: left;
     width: 100%;
+    max-width: 50%;
     line-height: 1.05;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+@media (max-width: 700px) {
+    .account-greeting {
+        max-width: 100%;
+    }
 }
 
 .account-greeting strong {
@@ -1310,6 +1425,21 @@
     animation: tmFadeRise 0.5s ease-out 0.25s both;
 }
 
+/* Fondu sombre en bas de la bande : les images se fondent progressivement
+   dans le fond du site (#0d0602) au lieu de s'arrêter net juste avant
+   le footer. */
+.account-vitrine::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 140px;
+    background: linear-gradient(to bottom, rgba(13, 6, 2, 0) 0%, rgba(13, 6, 2, 0.95) 100%);
+    pointer-events: none;
+    z-index: 2;
+}
+
 .account-vitrine-strip {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -1328,24 +1458,13 @@
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 0.4s ease;
+    transition: transform 0.4s ease, filter 0.4s ease;
+    filter: brightness(0.82);
 }
 
 .account-vitrine-col:hover img {
     transform: scale(1.04);
-}
-
-.account-vitrine-col::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(160deg, rgba(186, 90, 5, 0.6), rgba(211, 156, 94, 0.5));
-    pointer-events: none;
-    transition: opacity 0.4s ease;
-}
-
-.account-vitrine-col:hover::after {
-    opacity: 0;
+    filter: brightness(1);
 }
 
 /* Bouton centré par-dessus la bande, identique au vitrine-cta home */
@@ -1675,4 +1794,43 @@ img.vitrine-tile-logo {
         grid-template-columns: repeat(3, 1fr);
         gap: 1rem;
     }
+}
+/* ============================================================================
+   COMMANDE EN COURS — badge de statut "En cours" à la place du lien
+   cliquable + flèche : la carte n'est plus une action, juste une info.
+   Placé en fin de fichier pour primer sur les blocs .order-card
+   redondants plus haut (mêmes propriétés redéfinies à plusieurs endroits
+   au fil du fichier).
+   ============================================================================ */
+.order-card.is-pending {
+    cursor: default;
+    pointer-events: none;
+}
+
+.order-card .order-status {
+    position: absolute;
+    z-index: 1;
+    bottom: 0.75rem;
+    right: 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: 999px;
+    background: rgba(13, 6, 2, 0.55);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(243, 229, 171, 0.5);
+    color: #f3e5ab;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    white-space: nowrap;
+}
+
+.order-card .order-status svg {
+    width: 13px;
+    height: 13px;
+    flex-shrink: 0;
 }

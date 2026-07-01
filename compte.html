@@ -67,7 +67,7 @@
                         <img src="src/artiste-balade.jpg" alt="Vitrine 4">
                     </figure>
                 </div>
-                <a href="vitrine.html" class="btn-solid account-vitrine-cta">Voir la vitrine</a>
+                <a href="vitrine.html?ref=compte" class="btn-solid account-vitrine-cta">Voir la vitrine</a>
             </section>
 
         </main>
@@ -93,14 +93,19 @@
         const grid = document.getElementById('orders-grid');
 
         if (commandeEnCours) {
+            const commandeImage = localStorage.getItem('ss_commande_image');
             grid.innerHTML = `
-                <a href="nouvelle-commande.html" class="order-card">
-                    <img src="src/artiste-alicante.jpg" alt="${commandeEnCours}">
+                <div class="order-card is-pending">
+                    ${commandeImage ? `<img src="${commandeImage}" alt="${commandeEnCours}">` : ''}
                     <span class="order-name">"${commandeEnCours}"</span>
-                    <svg class="order-arrow" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </a>
+                    <span class="order-status">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/>
+                            <path d="M12 7v5l3.5 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        En cours
+                    </span>
+                </div>
                 <a href="nouvelle-commande.html" class="order-card-empty">
                     <span class="plus-circle">+</span>
                 </a>
@@ -120,7 +125,7 @@
         const slides = track.querySelectorAll('.carousel-slide');
         const total = slides.length;
 
-        nextBtn.addEventListener('click', () => {
+        nextBtn && nextBtn.addEventListener('click', () => {
             current = (current + 1) % total;
             track.style.transform = `translateX(calc(-${current} * (var(--slide-w) + var(--slide-gap))))`;
         });

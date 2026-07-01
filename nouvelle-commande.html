@@ -14,9 +14,11 @@
 </head>
 <body>
 
-    <div class="page-shell has-bars">
-        <div class="bars-bg"></div>
-        <div class="bars-vignette"></div>
+    <div class="page-shell has-bars screen-fit">
+        <div class="bars-clip">
+            <div class="bars-bg"></div>
+            <div class="bars-vignette"></div>
+        </div>
 
         <header class="page-header">
             <a href="compte.html" class="logo-static">
@@ -25,16 +27,46 @@
         </header>
 
         <main class="page-main">
-            <h1 class="page-title">Vos témoignages<span class="accent">de réussite</span></h1>
+            <h1 class="page-title page-title--inline">Votre nouvelle<span class="accent">commande</span></h1>
+
+            <p class="page-lede">
+                Décrivez votre projet et transmettez vos visuels : notre équipe
+                s'occupe de la conception et de la fabrication de votre disque
+                de certification.
+            </p>
 
             <form id="commande-form" novalidate>
-                <div class="field">
-                    <input type="text" id="projet" placeholder="Quel est le nom du projet ?" data-required>
+                <div class="order-avatar-picker">
+                    <label class="order-avatar-upload" id="avatar-upload">
+                        <input type="file" accept="image/*" id="avatar-input">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 8a2 2 0 0 1 2-2h1.5l1-1.5h7l1 1.5H18a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                            <circle cx="12" cy="13" r="3.2" stroke="currentColor" stroke-width="1.5"/>
+                        </svg>
+                    </label>
+                    <div class="order-avatar-caption">
+                        <span class="order-avatar-title">Photo de la commande</span>
+                        <span class="order-avatar-sub">Visible sur votre page compte</span>
+                    </div>
+                </div>
+
+                <div class="field field-reveal-1">
+                    <input type="text" id="projet" placeholder=" " data-required>
+                    <label class="floating" for="projet">Quel est le nom du projet ?</label>
                 </div>
 
                 <div class="upload-hint">
                     <span>Envoyez-nous vôtre chef-d'œuvre&nbsp;!</span>
-                    <span class="info-dot">i</span>
+                    <button type="button" class="info-dot" id="info-trigger" aria-label="Plus d'informations" aria-expanded="false" aria-controls="info-popup"><span class="info-dot-glyph">i</span></button>
+
+                    <div class="info-popup" id="info-popup" role="tooltip">
+                        <button type="button" class="info-popup-close" id="info-popup-close" aria-label="Fermer">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+                        <p>Vous pouvez nous transmettre tout visuel, logo ou document qui nous aidera à concevoir le disque de votre projet.</p>
+                    </div>
                 </div>
 
                 <label class="upload-zone" id="upload-zone">
@@ -47,12 +79,13 @@
                     <span class="upload-filename" style="display:none;"></span>
                 </label>
 
-                <div class="field">
-                    <textarea id="idees" placeholder="Donnez-nous vos idées design..."></textarea>
+                <div class="field field-reveal-2">
+                    <textarea id="idees" placeholder=" "></textarea>
+                    <label class="floating" for="idees">Donnez-nous vos idées design...</label>
                 </div>
 
                 <div class="cta-center">
-                    <button type="submit" id="commande-submit" class="btn-link is-disabled">
+                    <button type="submit" id="commande-submit" class="btn-link accent-underline-only is-disabled">
                         Demander un <span class="accent">devis</span>
                     </button>
                 </div>
@@ -76,10 +109,72 @@
         initUploadZone('#upload-zone');
         initFormGate('#commande-form', '#commande-submit');
 
+        // Aperçu de la photo de la commande : dès qu'un fichier est
+        // choisi, on l'affiche en fond de la vignette circulaire.
+        (function () {
+            const avatarUpload = document.getElementById('avatar-upload');
+            const avatarInput = document.getElementById('avatar-input');
+
+            avatarInput.addEventListener('change', () => {
+                const file = avatarInput.files && avatarInput.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = () => {
+                    avatarUpload.style.backgroundImage = `url(${reader.result})`;
+                    avatarUpload.classList.add('has-image');
+                };
+                reader.readAsDataURL(file);
+            });
+        })();
+
+        // Popup d'info : s'ouvre/se ferme au clic sur le "i", se ferme aussi via la croix
+        (function () {
+            const infoTrigger = document.getElementById('info-trigger');
+            const infoPopup = document.getElementById('info-popup');
+            const infoClose = document.getElementById('info-popup-close');
+
+            function openPopup() {
+                infoPopup.classList.add('is-open');
+                infoTrigger.setAttribute('aria-expanded', 'true');
+            }
+
+            function closePopup() {
+                infoPopup.classList.remove('is-open');
+                infoTrigger.setAttribute('aria-expanded', 'false');
+            }
+
+            infoTrigger.addEventListener('click', () => {
+                if (infoPopup.classList.contains('is-open')) {
+                    closePopup();
+                } else {
+                    openPopup();
+                }
+            });
+
+            infoClose.addEventListener('click', closePopup);
+        })();
+
         document.getElementById('commande-form').addEventListener('submit', (e) => {
             e.preventDefault();
             if (document.getElementById('commande-submit').classList.contains('is-disabled')) return;
-            window.location.href = 'compte.html?commande=' + encodeURIComponent(document.getElementById('projet').value || 'Nouveau projet');
+
+            const projetName = document.getElementById('projet').value || 'Nouveau projet';
+            const goToCompte = () => {
+                window.location.href = 'compte.html?commande=' + encodeURIComponent(projetName);
+            };
+
+            const avatarFile = document.getElementById('avatar-input').files[0];
+            if (avatarFile) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    localStorage.setItem('ss_commande_image', reader.result);
+                    goToCompte();
+                };
+                reader.readAsDataURL(avatarFile);
+            } else {
+                localStorage.removeItem('ss_commande_image');
+                goToCompte();
+            }
         });
     </script>
 </body>

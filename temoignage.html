@@ -60,7 +60,7 @@
 
                 <div class="upload-hint">
                     <span>Envoyez-nous vos chef-d'œuvre!</span>
-                    <button type="button" class="info-dot" id="info-trigger" aria-label="Plus d'informations" aria-expanded="false" aria-controls="info-popup">i</button>
+                    <button type="button" class="info-dot" id="info-trigger" aria-label="Plus d'informations" aria-expanded="false" aria-controls="info-popup"><span class="info-dot-glyph">i</span></button>
 
                     <div class="info-popup" id="info-popup" role="tooltip">
                         <button type="button" class="info-popup-close" id="info-popup-close" aria-label="Fermer">
@@ -106,7 +106,33 @@
     <script>
         initUploadZone('#upload-zone');
         initFormGate('#eligibilite-form', '#eligibilite-submit');
-        initInfoPopup('#info-trigger', '#info-popup', '#info-popup-close');
+
+        // Popup d'info : s'ouvre/se ferme au clic sur le "i", se ferme aussi via la croix
+        (function () {
+            const infoTrigger = document.getElementById('info-trigger');
+            const infoPopup = document.getElementById('info-popup');
+            const infoClose = document.getElementById('info-popup-close');
+
+            function openPopup() {
+                infoPopup.classList.add('is-open');
+                infoTrigger.setAttribute('aria-expanded', 'true');
+            }
+
+            function closePopup() {
+                infoPopup.classList.remove('is-open');
+                infoTrigger.setAttribute('aria-expanded', 'false');
+            }
+
+            infoTrigger.addEventListener('click', () => {
+                if (infoPopup.classList.contains('is-open')) {
+                    closePopup();
+                } else {
+                    openPopup();
+                }
+            });
+
+            infoClose.addEventListener('click', closePopup);
+        })();
 
         document.getElementById('eligibilite-form').addEventListener('submit', (e) => {
             e.preventDefault();

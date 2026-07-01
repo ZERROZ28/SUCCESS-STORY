@@ -83,5 +83,15 @@
         </footer>
     </div>
 
+    <script>
+        // Si on arrive depuis la page "compte" (déjà connecté), on masque
+        // "Prendre contact" dans le header : inutile pour un utilisateur
+        // déjà connecté.
+        if (new URLSearchParams(window.location.search).get('ref') === 'compte') {
+            const headerAction = document.querySelector('.header-action');
+            if (headerAction) headerAction.style.display = 'none';
+        }
+    </script>
+
 </body>
 </html>

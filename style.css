@@ -195,18 +195,19 @@ body, html {
     right: 2rem;
     color: #fff;
     text-decoration: none;
-    font-style: italic;
+    font-family: 'Oswald', sans-serif;
+    font-style: normal;
     padding-bottom: 5px;
     opacity: 0;
     transform: translateY(20px);
-    font-size: 1.15rem;
+    font-size: 1.4rem;
 }
 
 @media (max-width: 480px) {
     .contact-btn {
         bottom: 1.25rem;
         right: 1.25rem;
-        font-size: 0.9rem;
+        font-size: 1.05rem;
     }
 }
 
@@ -255,7 +256,7 @@ body, html {
     font-style: italic;
     font-family: 'Oswald', sans-serif;
     padding-bottom: 4px;
-    font-size: 1.05rem;
+    font-size: 1.3rem;
     letter-spacing: 0.5px;
     transition: color 0.2s, border-color 0.2s;
 }
