@@ -155,6 +155,11 @@
     animation: tmFadeRise 0.5s ease-out 0.42s forwards;
 }
 
+.page-shell.has-bars .field-row + .field + .field {
+    opacity: 0;
+    animation: tmFadeRise 0.5s ease-out 0.52s forwards;
+}
+
 .page-shell.has-bars .upload-hint {
     opacity: 0;
     animation: tmFadeRise 0.5s ease-out 0.54s forwards;
@@ -388,24 +393,64 @@
 .field-row {
     display: flex;
     gap: 1rem;
-    margin-bottom: 1rem;
+    margin-bottom: 1.25rem;
 }
 
 .field-row .field {
     flex: 1;
     min-width: 0;
+    margin-bottom: 0;
 }
 
 @media (max-width: 480px) {
     .field-row {
         flex-direction: column;
-        gap: 0;
-        margin-bottom: 0;
+        gap: 1.25rem;
+        margin-bottom: 1.25rem;
     }
 }
 
 .field {
-    margin-bottom: 1rem;
+    margin-bottom: 1.25rem;
+    position: relative;
+}
+
+/* Floating label */
+.field label.floating {
+    position: absolute;
+    left: 1.4rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.55);
+    pointer-events: none;
+    transition: top 0.2s ease, font-size 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.field textarea ~ label.floating {
+    top: 1.1rem;
+    transform: none;
+}
+
+/* Label monté quand le champ a le focus ou est rempli */
+.field input:focus ~ label.floating,
+.field input.has-value ~ label.floating,
+.field textarea:focus ~ label.floating,
+.field textarea.has-value ~ label.floating {
+    top: -0.55rem;
+    font-size: 0.72rem;
+    color: #f3e5ab;
+    transform: translateY(0);
+    background: #0d0602;
+    padding: 0 0.35rem;
+    left: 1.1rem;
+}
+
+.field textarea:focus ~ label.floating,
+.field textarea.has-value ~ label.floating {
+    top: -0.55rem;
 }
 
 .field input,
@@ -420,7 +465,7 @@
     font-size: 0.95rem;
     padding: 0.95rem 1.4rem;
     outline: none;
-    transition: border-color 0.2s ease;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .field textarea {
@@ -430,14 +475,45 @@
     line-height: 1.6;
 }
 
+/* Plus de placeholder natif puisqu'on utilise les floating labels */
 .field input::placeholder,
 .field textarea::placeholder {
-    color: rgba(255, 255, 255, 0.55);
+    color: transparent;
 }
 
 .field input:focus,
 .field textarea:focus {
     border-color: #f3e5ab;
+    box-shadow: 0 0 0 3px rgba(243, 229, 171, 0.1);
+}
+
+/* État erreur mail */
+.field.has-error input {
+    border-color: #e05a5a;
+    box-shadow: 0 0 0 3px rgba(224, 90, 90, 0.15);
+}
+
+.field.has-error label.floating,
+.field.has-error input:focus ~ label.floating,
+.field.has-error input.has-value ~ label.floating {
+    color: #e05a5a;
+}
+
+.field-error-msg {
+    position: absolute;
+    right: 1.4rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: #e05a5a;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.field.has-error .field-error-msg {
+    opacity: 1;
 }
 
 /* Texte d'aide au-dessus de la zone d'upload, avec icône info */
@@ -595,15 +671,15 @@
     justify-content: center;
     background-color: #f3e5ab;
     color: #1a1206;
-    font-family: 'Oswald', sans-serif;
-    font-weight: 600;
-    font-size: 0.95rem;
+    font-family: 'Pressio', 'Oswald', sans-serif;
+    font-weight: normal;
+    font-size: 1.8rem;
     text-decoration: none;
     border: none;
     border-radius: 999px;
-    padding: 0.9rem 2.2rem;
+    padding: 0.95rem 2.2rem;
     cursor: pointer;
-    letter-spacing: 0.3px;
+    letter-spacing: 0.5px;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -620,15 +696,16 @@
     box-shadow: none;
 }
 
-/* Lien souligné "italique doré", identique au pattern h2 span / contact-btn */
+/* CTA principal (Se connecter, Configurer mon compte, Contactez-nous…) :
+   grand et central, c'est l'action principale de chaque page. */
 .btn-link {
-    font-family: 'Oswald', sans-serif;
-    font-style: italic;
-    font-weight: 600;
-    font-size: 2.3rem;
+    font-family: 'Pressio', 'Oswald', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: clamp(2rem, 7vw, 3rem);
     color: #ffffff;
     text-decoration: none;
-    padding-bottom: 4px;
+    padding-bottom: 6px;
     background: none;
     border-left: none;
     border-right: none;
@@ -636,9 +713,22 @@
     cursor: pointer;
 }
 
+/* Les éléments de header ne prennent jamais Pressio, même s'ils héritent
+   accidentellement de .btn-link ou d'une classe de bouton. */
+.page-header .btn-link,
+.page-header .btn-solid,
+.sticky-header .btn-link,
+.sticky-header .btn-solid,
+.ui-container .btn-link,
+.ui-container .btn-solid,
+.page-header a,
+.sticky-header a {
+    font-family: 'Oswald', sans-serif;
+}
+
 .btn-link .accent {
     color: #f3e5ab;
-    border-bottom: 1px solid #f3e5ab;
+    border-bottom: 2px solid #f3e5ab;
 }
 
 .btn-link.full-accent {
@@ -646,17 +736,18 @@
     border-bottom-color: #f3e5ab;
 }
 
-/* Variante "seul l'accent est souligné" : le reste du libellé ("Testez
-   votre") perd son trait, seul le mot accentué ("éligibilité") garde le
-   sien. Légèrement plus grand pour un bouton plus confortable à cliquer. */
+/* Variante "Testez votre éligibilité" : bouton de soumission de formulaire,
+   doit être confortable à toucher (min 48px de hauteur cible) mais moins
+   imposant que le CTA principal. */
 .btn-link.accent-underline-only {
     border-bottom: none;
     padding-bottom: 0;
-    font-size: clamp(1.25rem, 5.5vw, 1.55rem);
+    font-size: clamp(1.5rem, 5.5vw, 2rem);
 }
 
 .btn-link.accent-underline-only .accent {
-    padding-bottom: 4px;
+    padding-bottom: 5px;
+    border-bottom-width: 2px;
 }
 
 .cta-center {
@@ -857,59 +948,432 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    gap: 1.5rem;
-    padding-bottom: 4rem;
+    gap: 0;
+    padding: 2rem 1.5rem 4rem;
 }
 
-.login-shell .page-title {
-    font-size: clamp(1.7rem, 6.5vw, 2.3rem);
+/* Titre avec accent Optiborden, même pattern que les autres pages */
+.login-title {
+    font-size: clamp(1.8rem, 6vw, 2.8rem) !important;
     font-weight: 400;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.2em;
+    margin-bottom: 2.5rem;
+    animation: tmFadeRise 0.6s ease-out both;
 }
 
-.login-shell .field {
+.login-title .accent {
+    display: inline-block;
+    font-family: 'Optiborden', cursive;
+    font-size: clamp(2.1rem, 7vw, 3.4rem);
+    color: #f3e5ab;
+    font-weight: 400;
+    font-style: normal;
+    border-bottom: none;
+    text-decoration: none;
+    padding-bottom: 0;
+}
+
+/* Formulaire centré, largeur confortable comme le wireframe */
+.login-form {
     width: 100%;
+    max-width: 520px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    animation: tmFadeRise 0.6s ease-out 0.15s both;
+}
+
+/* Champ identifiant : plus grand que les champs standards, en écho au
+   wireframe où le champ est l'élément dominant de la page */
+.login-field input {
+    font-size: 1.2rem !important;
+    padding: 1.2rem 1.8rem !important;
+    border-color: rgba(243, 229, 171, 0.4) !important;
+    letter-spacing: 2px;
+    text-align: left;
+}
+
+.login-field input::placeholder {
+    letter-spacing: 0;
+    text-align: left;
+    font-size: 1rem;
+}
+
+.login-field input:focus {
+    border-color: #f3e5ab !important;
+    box-shadow: 0 0 0 4px rgba(243, 229, 171, 0.1);
 }
 
 .login-helper {
     align-self: flex-end;
     font-size: 0.85rem;
     font-weight: 300;
-    color: #ffffff;
-    text-decoration: underline;
-    margin-top: -0.5rem;
+    color: rgba(255,255,255,0.55);
+    text-decoration: none;
+    margin-top: 0.6rem;
+    margin-bottom: 0;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    padding-bottom: 2px;
+    transition: color 0.2s, border-color 0.2s;
+    animation: tmFadeRise 0.5s ease-out 0.3s both;
+}
+
+.login-helper:hover {
+    color: #f3e5ab;
+    border-color: rgba(243, 229, 171, 0.5);
+}
+
+.login-cta {
+    margin-top: 2.5rem;
+    animation: tmFadeRise 0.5s ease-out 0.45s both;
 }
 
 /* ----------------------------------------------------------------------------
    8. PAGE COMPTE (DASHBOARD)
    ---------------------------------------------------------------------------- */
-.account-header {
+.page-main.account-main {
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 0.25rem;
-    padding-top: 1rem;
+    align-items: flex-start;
+}
+
+.account-greeting-wrap {
+    width: 100%;
+    text-align: left;
+    padding: 2.5rem 1.5rem 0.5rem;
+    animation: tmFadeRise 0.5s ease-out both;
 }
 
 .account-greeting {
     font-family: 'Oswald', sans-serif;
-    font-size: clamp(1.6rem, 6vw, 2.1rem);
+    font-size: clamp(2rem, 6vw, 5rem);
     font-weight: 300;
-    text-align: center;
-    margin: 1.5rem 0 2.5rem;
+    color: #ffffff;
+    margin: 0;
+    text-align: left;
     width: 100%;
+    line-height: 1.05;
 }
 
 .account-greeting strong {
     font-weight: 700;
-    letter-spacing: 0.5px;
+    color: #f3e5ab;
+    letter-spacing: 2px;
+    display: inline;
+}
+
+.account-block {
+    width: 100%;
+    padding: 2.5rem 2rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    animation: tmFadeRise 0.5s ease-out 0.1s both;
+}
+
+.account-block-header {
+    margin-bottom: 1.25rem;
+    padding: 0.5rem 0;
 }
 
 .account-section-title {
-    font-size: 1rem;
-    font-weight: 400;
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(1.1rem, 3vw, 1.4rem);
+    font-weight: 600;
+    color: rgba(255,255,255,0.9);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin: 0 0 0.4rem;
+    text-align: left;
+}
+
+.account-section-sub {
+    font-size: clamp(0.85rem, 2vw, 1rem);
+    font-weight: 300;
+    color: rgba(255,255,255,0.45);
+    margin: 0;
+    text-align: left;
+    max-width: none;
+}
+
+/* Carrousel — slides responsive */
+.carousel-track {
+    --slide-w: calc((100vw - 4rem - 0.75rem) / 2);
+    --slide-gap: 0.75rem;
+    display: flex;
+    gap: var(--slide-gap);
+    transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+}
+
+.carousel-slide {
+    flex: 0 0 var(--slide-w);
+    margin: 0;
+    border-radius: 14px;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+}
+
+/* Commandes en cours — cartes responsive */
+.orders-grid {
+    display: grid;
+    grid-template-columns: repeat(2, calc((100vw - 4rem - 0.75rem) / 2));
+    gap: 0.75rem;
+}
+
+.order-card {
+    position: relative;
+    border-radius: 14px;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    background: #1a1410;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    text-decoration: none;
+}
+
+.order-card-empty {
+    border-radius: 14px;
+    aspect-ratio: 1 / 1;
+    background: rgba(255,255,255,0.04);
+    border: 1px dashed rgba(255,255,255,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+    text-decoration: none;
+}
+
+/* Carrousel — slides carrés */
+.carousel-wrap {
+    position: relative;
+    overflow: hidden;
+}
+
+.carousel-track {
+    --slide-w: calc((100vw - 3rem - 2 * 0.75rem) / 6);
+    --slide-gap: 0.75rem;
+    display: flex;
+    gap: var(--slide-gap);
+    transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+}
+
+.carousel-slide {
+    flex: 0 0 var(--slide-w);
+    margin: 0;
+    border-radius: 10px;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+}
+
+.carousel-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.carousel-btn {
+    position: absolute;
+    right: -8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.18);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.25);
     color: #ffffff;
-    text-transform: none;
-    margin-bottom: 1rem;
+    font-size: 1.4rem;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+    z-index: 2;
+}
+
+.carousel-btn:hover {
+    background: rgba(243, 229, 171, 0.3);
+    border-color: rgba(243, 229, 171, 0.5);
+}
+
+/* Commandes en cours — cartes carrées */
+.orders-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+}
+
+.order-card {
+    position: relative;
+    border-radius: 10px;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    background: #1a1410;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    text-decoration: none;
+}
+
+.order-card img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(100%);
+    z-index: 0;
+}
+
+.order-card .order-name {
+    position: relative;
+    z-index: 1;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: #ffffff;
+    padding: 0.75rem;
+}
+
+.order-card .order-arrow {
+    position: absolute;
+    z-index: 1;
+    bottom: 0.75rem;
+    right: 0.75rem;
+    width: 24px;
+    height: 24px;
+    color: #ffffff;
+}
+
+.order-card-empty {
+    border-radius: 10px;
+    aspect-ratio: 1 / 1;
+    background: rgba(255,255,255,0.04);
+    border: 1px dashed rgba(255,255,255,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+    text-decoration: none;
+}
+
+.order-card-empty:hover {
+    background: rgba(243, 229, 171, 0.06);
+    border-color: rgba(243, 229, 171, 0.3);
+}
+
+.order-card-empty .plus-circle {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    color: #ffffff;
+    line-height: 1;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.order-card-empty:hover .plus-circle {
+    background: rgba(243, 229, 171, 0.15);
+    border-color: #f3e5ab;
+    color: #f3e5ab;
+}
+
+/* Vitrine plein-bleed : sort du max-width de page-main */
+.account-vitrine {
+    margin-top: auto;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+    margin-bottom: 0;
+    position: relative;
+    width: 100vw;
+    animation: tmFadeRise 0.5s ease-out 0.25s both;
+}
+
+.account-vitrine-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    width: 100%;
+}
+
+.account-vitrine-col {
+    margin: 0;
+    overflow: hidden;
+    aspect-ratio: 3 / 4;
+    position: relative;
+}
+
+.account-vitrine-col img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.account-vitrine-col:hover img {
+    transform: scale(1.04);
+}
+
+.account-vitrine-col::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(160deg, rgba(186, 90, 5, 0.6), rgba(211, 156, 94, 0.5));
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+.account-vitrine-col:hover::after {
+    opacity: 0;
+}
+
+/* Bouton centré par-dessus la bande, identique au vitrine-cta home */
+.account-vitrine-cta {
+    position: absolute;
+    left: 50%;
+    bottom: 2rem;
+    transform: translateX(-50%);
+    z-index: 3;
+    white-space: nowrap;
+}
+
+.account-vitrine-cta:hover {
+    transform: translateX(-50%) translateY(-1px);
+}
+
+@media (max-width: 768px) {
+    .carousel-track {
+        --slide-w: calc((100vw - 3rem - 0.75rem) / 2);
+    }
+
+    .account-vitrine-strip {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .account-vitrine-col:nth-child(n+3) {
+        display: none;
+    }
 }
 
 .account-grid {

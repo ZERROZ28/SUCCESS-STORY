@@ -172,10 +172,36 @@ function initScreenFitHeight(selector) {
 document.addEventListener('DOMContentLoaded', () => {
     initScreenFitHeight('.page-shell.screen-fit');
 
-    // Les pages qui ont déjà leur propre .page-header (logo + éventuel lien
-    // "Mon compte") n'ont pas besoin du sticky-header dupliqué : l'injecter
-    // quand même superposerait un second logo flou (backdrop-filter) par-
-    // dessus le header natif, comme observé sur la page témoignage.
+    // Floating labels : ajoute .has-value sur chaque input/textarea
+    // quand il contient du texte, pour que le label reste monté.
+    document.querySelectorAll('.field input, .field textarea').forEach((input) => {
+        const sync = () => input.classList.toggle('has-value', input.value.trim().length > 0);
+        input.addEventListener('input', sync);
+        sync();
+    });
+
+    // Validation mail visuelle en temps réel : bordure + label rouge
+    // + message "Mail non conforme" si le format n'est pas valide.
+    const mailInput = document.getElementById('mail');
+    const mailField = document.getElementById('mail-field');
+    if (mailInput && mailField) {
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        mailInput.addEventListener('blur', () => {
+            if (mailInput.value.trim() && !emailRegex.test(mailInput.value.trim())) {
+                mailField.classList.add('has-error');
+            } else {
+                mailField.classList.remove('has-error');
+            }
+        });
+        mailInput.addEventListener('input', () => {
+            if (mailField.classList.contains('has-error')) {
+                if (emailRegex.test(mailInput.value.trim())) {
+                    mailField.classList.remove('has-error');
+                }
+            }
+        });
+    }
+
     if (document.querySelector('.page-header')) return;
     injectStickyHeader();
 });

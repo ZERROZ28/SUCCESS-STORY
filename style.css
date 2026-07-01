@@ -11,6 +11,15 @@
     font-display: swap;
 }
 
+/* Police Pressio — utilisée sur tous les boutons (hors header) */
+@font-face {
+    font-family: 'Pressio';
+    src: url('src/Pressio.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 /* Oswald est importée via Google Fonts dans le <head> de index.html
    (lien <link> — plus performant qu'un @import CSS).
    Famille complète disponible : 200 (extra-light) à 700 (bold), + italiques. */

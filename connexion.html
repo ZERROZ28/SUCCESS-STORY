@@ -14,17 +14,29 @@
 </head>
 <body>
 
-    <div class="page-shell has-glow">
-        <main class="page-main login-shell">
-            <h1 class="page-title">Entrez votre identifiant</h1>
+    <div class="page-shell has-bars screen-fit">
+        <div class="bars-clip">
+            <div class="bars-bg"></div>
+            <div class="bars-vignette"></div>
+        </div>
 
-            <form id="login-form" novalidate style="width:100%;">
-                <div class="field">
-                    <input type="text" id="login-identifiant" placeholder="" data-required autofocus>
+        <header class="page-header">
+            <a href="index.html" class="logo-static">
+                <img src="src/LogoSite.svg" alt="Success Story by SNEP">
+            </a>
+        </header>
+
+        <main class="page-main login-shell">
+            <h1 class="page-title login-title">Entrez votre <span class="accent">identifiant</span></h1>
+
+            <form id="login-form" novalidate class="login-form">
+                <div class="field login-field">
+                    <input type="text" id="login-identifiant" placeholder="Votre identifiant à 6 chiffres" data-required autofocus>
                 </div>
+
                 <a href="temoignage.html" class="login-helper">Vous n'en avez pas encore ?</a>
 
-                <div class="cta-center">
+                <div class="cta-center login-cta">
                     <button type="submit" id="login-submit" class="btn-link full-accent is-disabled">
                         Se connecter
                     </button>

@@ -4,16 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mon compte - Success Story by SNEP</title>
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
-
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="pages.css">
 </head>
 <body>
-
     <div class="page-shell has-glow">
         <header class="page-header">
             <a href="index.html" class="logo-static">
@@ -21,45 +18,58 @@
             </a>
         </header>
 
-        <main class="page-main">
-            <h1 class="account-greeting">Bonjour, <strong id="user-name">BAEOASBEATS</strong></h1>
+        <main class="page-main account-main">
 
+            <!-- SALUTATION -->
+            <div class="account-greeting-wrap">
+                <p class="account-greeting">Bonjour, <strong id="user-name"></strong></p>
+            </div>
+
+            <!-- COMMANDES RÉCENTES -->
             <section class="account-block">
-                <h2 class="account-section-title">Vos commandes récentes</h2>
-                <div class="account-grid">
-                    <figure>
-                        <img src="path/to/art-1.jpg" alt="Commande récente 1">
-                    </figure>
-                    <figure>
-                        <img src="path/to/art-2.jpg" alt="Commande récente 2" class="grayscale">
-                    </figure>
+                <div class="account-block-header">
+                    <h2 class="account-section-title">Vos commandes récentes</h2>
+                    <p class="account-section-sub">Retrouvez ici vos derniers disques commandés</p>
                 </div>
-                <div class="account-cta-row">
-                    <a href="nouvelle-commande.html" class="btn-solid">Nouvelle commande</a>
+                <div class="carousel-wrap">
+                    <div class="carousel-track" id="carousel-track">
+                        <figure class="carousel-slide">
+                            <img src="src/artiste-alicante.jpg" alt="Alicante">
+                        </figure>
+                        <figure class="carousel-slide">
+                            <img src="src/artiste-gmk.jpg" alt="GMK">
+                        </figure>
+                    </div>
                 </div>
             </section>
 
+            <!-- COMMANDES EN COURS -->
             <section class="account-block">
-                <h2 class="account-section-title">Vos commandes en cours</h2>
-                <div class="orders-grid" id="orders-grid">
-                    <!-- généré en JS selon qu'il existe une commande en cours ou non -->
+                <div class="account-block-header">
+                    <h2 class="account-section-title">Vos commandes en cours</h2>
                 </div>
+                <div class="orders-grid" id="orders-grid"></div>
             </section>
 
-            <section class="account-block">
-                <h2 class="account-section-title">En manque d'idée design ?</h2>
-                <div class="account-grid">
-                    <figure>
-                        <img src="path/to/art-1.jpg" alt="Inspiration 1">
+            <!-- VITRINE PLEIN-BLEED -->
+            <section class="account-vitrine">
+                <div class="account-vitrine-strip">
+                    <figure class="account-vitrine-col">
+                        <img src="src/artiste-alicante.jpg" alt="Vitrine 1">
                     </figure>
-                    <figure>
-                        <img src="path/to/art-2.jpg" alt="Inspiration 2" class="grayscale">
+                    <figure class="account-vitrine-col">
+                        <img src="src/artiste-gmk.jpg" alt="Vitrine 2">
+                    </figure>
+                    <figure class="account-vitrine-col">
+                        <img src="src/artiste-capitale-du-crime.jpg" alt="Vitrine 3">
+                    </figure>
+                    <figure class="account-vitrine-col">
+                        <img src="src/artiste-balade.jpg" alt="Vitrine 4">
                     </figure>
                 </div>
-                <div class="account-cta-row">
-                    <a href="vitrine.html" class="btn-solid">Voir la vitrine</a>
-                </div>
+                <a href="vitrine.html" class="btn-solid account-vitrine-cta">Voir la vitrine</a>
             </section>
+
         </main>
 
         <footer class="site-footer">
@@ -76,8 +86,8 @@
 
     <script src="pages.js"></script>
     <script>
-        // Démo : ajoute ?commande=CDCv2 à l'URL pour afficher une commande
-        // en cours (maquette page 8). Sans paramètre : état vide (maquette page 6).
+        const savedName = localStorage.getItem('ss_user_name');
+        if (savedName) document.getElementById('user-name').textContent = savedName;
         const params = new URLSearchParams(window.location.search);
         const commandeEnCours = params.get('commande');
         const grid = document.getElementById('orders-grid');
@@ -85,7 +95,7 @@
         if (commandeEnCours) {
             grid.innerHTML = `
                 <a href="nouvelle-commande.html" class="order-card">
-                    <img src="path/to/art-1.jpg" alt="${commandeEnCours}">
+                    <img src="src/artiste-alicante.jpg" alt="${commandeEnCours}">
                     <span class="order-name">"${commandeEnCours}"</span>
                     <svg class="order-arrow" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -102,6 +112,18 @@
                 </a>
             `;
         }
+
+        // Carrousel
+        const track = document.getElementById('carousel-track');
+        const nextBtn = document.getElementById('carousel-next');
+        let current = 0;
+        const slides = track.querySelectorAll('.carousel-slide');
+        const total = slides.length;
+
+        nextBtn.addEventListener('click', () => {
+            current = (current + 1) % total;
+            track.style.transform = `translateX(calc(-${current} * (var(--slide-w) + var(--slide-gap))))`;
+        });
     </script>
 </body>
 </html>

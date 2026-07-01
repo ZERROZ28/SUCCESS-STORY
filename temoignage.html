@@ -38,20 +38,28 @@
             <form id="eligibilite-form" novalidate>
                 <div class="field-row">
                     <div class="field">
-                        <input type="text" id="prenom" placeholder="Quel est votre prénom ?" data-required>
+                        <input type="text" id="prenom" placeholder=" " data-required>
+                        <label class="floating" for="prenom">Votre prénom</label>
                     </div>
                     <div class="field">
-                        <input type="text" id="nom" placeholder="Quel est votre nom ?" data-required>
+                        <input type="text" id="nom" placeholder=" " data-required>
+                        <label class="floating" for="nom">Votre nom</label>
                     </div>
                 </div>
 
                 <div class="field">
-                    <span id="mail-error" class="field-error-msg" style="display: none;">Adresse mail non conforme</span>
-                    <input type="email" id="mail" placeholder="Quel est votre mail ?" data-required>
+                    <input type="text" id="pseudo" placeholder=" ">
+                    <label class="floating" for="pseudo">Votre pseudo</label>
+                </div>
+
+                <div class="field" id="mail-field">
+                    <span id="mail-error" class="field-error-msg">Mail non conforme</span>
+                    <input type="email" id="mail" placeholder=" " data-required>
+                    <label class="floating" for="mail">Votre mail</label>
                 </div>
 
                 <div class="upload-hint">
-                    <span>Envoyez-nous vos chef-d'œuvre&nbsp;!</span>
+                    <span>Envoyez-nous vos chef-d'œuvre!</span>
                     <button type="button" class="info-dot" id="info-trigger" aria-label="Plus d'informations" aria-expanded="false" aria-controls="info-popup">i</button>
 
                     <div class="info-popup" id="info-popup" role="tooltip">
@@ -103,6 +111,14 @@
         document.getElementById('eligibilite-form').addEventListener('submit', (e) => {
             e.preventDefault();
             if (document.getElementById('eligibilite-submit').classList.contains('is-disabled')) return;
+            const pseudo = document.getElementById('pseudo').value.trim();
+            const prenom = document.getElementById('prenom').value.trim();
+            const nom = document.getElementById('nom').value.trim();
+            const displayName = pseudo
+                ? pseudo.toUpperCase()
+                : (prenom + (nom ? ' ' + nom : '')).toUpperCase();
+            if (displayName) localStorage.setItem('ss_user_name', displayName);
+            else localStorage.removeItem('ss_user_name');
             window.location.href = 'eligible.html';
         });
     </script>
