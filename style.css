@@ -413,6 +413,12 @@ p {
     margin-top: 2rem;
 }
 
+.cta-right {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 2rem;
+}
+
 /* Tablette/mobile : les deux colonnes s'empilent, le séparateur vertical
    devient une ligne horizontale fine entre les deux blocs, et les titres
    reprennent un alignement centré cohérent avec le reste du site. */

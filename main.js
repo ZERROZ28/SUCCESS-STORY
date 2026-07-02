@@ -244,10 +244,18 @@ function initScrollAnimations() {
         }
     }, 0);
 
-    // Déplacement du logo vers le coin inférieur gauche pendant l'action
+    // Déplacement du logo vers le coin inférieur gauche pendant l'action.
+    // On aligne le CENTRE du logo avec le CENTRE du bouton "Prendre contact"
+    // (lui-même à bottom: 2rem) pour un alignement visuel parfait.
     tl.to("#main-logo", {
         left: "2rem",
-        top: "calc(100vh - 8rem)",
+        top: () => {
+            const contactBtn = document.getElementById('contact-btn');
+            const logo = document.getElementById('main-logo');
+            // bottom: 2rem = 32px, y: -20 appliqué par GSAP sur le bouton
+            const btnCenter = window.innerHeight - 32 - contactBtn.offsetHeight / 2 - 20;
+            return (btnCenter - logo.offsetHeight / 2) + "px";
+        },
         xPercent: 0,
         yPercent: 0,
         scale: 1,
