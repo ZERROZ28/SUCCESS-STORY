@@ -1379,16 +1379,13 @@
 }
 
 .order-card .order-name {
-    position: absolute;
+    position: relative;
     z-index: 1;
-    top: 0.75rem;
-    left: 0.75rem;
     font-family: 'Oswald', sans-serif;
-    font-weight: 600;
-    font-size: 1rem;
+    font-weight: 700;
+    font-size: 1.2rem;
     color: #ffffff;
-    padding: 0;
-    text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+    padding: 0.75rem;
 }
 
 .order-card .order-arrow {
@@ -1603,7 +1600,15 @@ img.account-vitrine-logo {
     z-index: 0;
 }
 
-
+.order-card .order-name {
+    position: relative;
+    z-index: 1;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: #ffffff;
+    padding: 1rem;
+}
 
 .order-card .order-arrow {
     position: absolute;
