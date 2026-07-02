@@ -399,7 +399,11 @@ p {
 
 .two-cols-divider {
     width: 1px;
+    min-width: 1px;
+    max-width: 1px;
+    min-height: 100%;
     align-self: stretch;
+    flex-shrink: 0;
     background: linear-gradient(180deg, transparent, rgba(243, 229, 171, 0.7) 15%, rgba(243, 229, 171, 0.7) 85%, transparent);
 }
 
