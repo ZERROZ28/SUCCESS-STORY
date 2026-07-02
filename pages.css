@@ -437,6 +437,7 @@
 }
 
 /* Floating label */
+/* Label au repos : centré verticalement dans le champ */
 .field label.floating {
     position: absolute;
     left: 1.4rem;
@@ -447,7 +448,7 @@
     font-size: 0.95rem;
     color: rgba(255, 255, 255, 0.55);
     pointer-events: none;
-    transition: top 0.2s ease, font-size 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    transition: top 0.18s ease, font-size 0.18s ease, color 0.18s ease, transform 0.18s ease;
 }
 
 .field textarea ~ label.floating {
@@ -455,23 +456,28 @@
     transform: none;
 }
 
-/* Label monté quand le champ a le focus ou est rempli */
+/* Label monté : reste DANS le champ en haut à gauche, sans fond */
 .field input:focus ~ label.floating,
 .field input.has-value ~ label.floating,
 .field textarea:focus ~ label.floating,
 .field textarea.has-value ~ label.floating {
-    top: -0.55rem;
-    font-size: 0.72rem;
+    top: 0.45rem;
+    font-size: 0.65rem;
     color: #f3e5ab;
     transform: translateY(0);
-    background: #0d0602;
-    padding: 0 0.35rem;
-    left: 1.1rem;
+    left: 1.4rem;
+}
+
+/* Le texte saisi descend pour laisser de la place au label monté */
+.field input:focus,
+.field input.has-value {
+    padding-top: 1.4rem !important;
+    padding-bottom: 0.5rem !important;
 }
 
 .field textarea:focus ~ label.floating,
 .field textarea.has-value ~ label.floating {
-    top: -0.55rem;
+    top: 0.45rem;
 }
 
 .field input,
@@ -1057,21 +1063,21 @@
 
 /* Titre avec accent Optiborden, même pattern que les autres pages */
 .login-title {
-    font-size: clamp(1.8rem, 6vw, 2.8rem) !important;
+    font-size: clamp(2.2rem, 7vw, 3.8rem) !important;
     font-weight: 400;
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
     justify-content: center;
     gap: 0.2em;
-    margin-bottom: 2.5rem;
+    margin-bottom: 3rem;
     animation: tmFadeRise 0.6s ease-out both;
 }
 
 .login-title .accent {
     display: inline-block;
     font-family: 'Optiborden', cursive;
-    font-size: clamp(2.1rem, 7vw, 3.4rem);
+    font-size: clamp(2.6rem, 8.5vw, 4.6rem);
     color: #f3e5ab;
     font-weight: 400;
     font-style: normal;
@@ -1083,7 +1089,7 @@
 /* Formulaire centré, largeur confortable comme le wireframe */
 .login-form {
     width: 100%;
-    max-width: 520px;
+    max-width: 600px;
     display: flex;
     flex-direction: column;
     align-items: stretch;
@@ -1091,39 +1097,52 @@
     animation: tmFadeRise 0.6s ease-out 0.15s both;
 }
 
-/* Champ identifiant : plus grand que les champs standards, en écho au
-   wireframe où le champ est l'élément dominant de la page */
-.login-field input {
-    font-size: 1.2rem !important;
-    padding: 1.2rem 1.8rem !important;
-    border-color: rgba(243, 229, 171, 0.4) !important;
-    letter-spacing: 2px;
-    text-align: left;
+/* 6 cases OTP pour l'identifiant à 6 chiffres */
+.otp-group {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    animation: tmFadeRise 0.6s ease-out 0.15s both;
 }
 
-.login-field input::placeholder {
-    letter-spacing: 0;
-    text-align: left;
-    font-size: 1rem;
+.otp-input {
+    width: 72px;
+    height: 88px;
+    background: transparent;
+    border: 1px solid rgba(243, 229, 171, 0.35);
+    border-radius: 16px;
+    color: #f3e5ab;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 500;
+    font-size: 2.4rem;
+    text-align: center;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    caret-color: #f3e5ab;
 }
 
-.login-field input:focus {
-    border-color: #f3e5ab !important;
-    box-shadow: 0 0 0 4px rgba(243, 229, 171, 0.1);
+.otp-input:focus {
+    border-color: #f3e5ab;
+    box-shadow: 0 0 0 4px rgba(243, 229, 171, 0.12);
+    background: rgba(243, 229, 171, 0.05);
+}
+
+.otp-input:not(:placeholder-shown) {
+    border-color: rgba(243, 229, 171, 0.6);
 }
 
 .login-helper {
-    align-self: flex-end;
+    align-self: center;
     font-size: 0.85rem;
     font-weight: 300;
-    color: rgba(255,255,255,0.55);
+    color: rgba(255,255,255,0.45);
     text-decoration: none;
-    margin-top: 0.6rem;
+    margin-top: 1.25rem;
     margin-bottom: 0;
-    border-bottom: 1px solid rgba(255,255,255,0.2);
+    border-bottom: 1px solid rgba(255,255,255,0.15);
     padding-bottom: 2px;
     transition: color 0.2s, border-color 0.2s;
-    animation: tmFadeRise 0.5s ease-out 0.3s both;
+    animation: tmFadeRise 0.5s ease-out 0.5s both;
 }
 
 .login-helper:hover {
@@ -1131,8 +1150,12 @@
     border-color: rgba(243, 229, 171, 0.5);
 }
 
+.login-shell .field.login-field {
+    margin-bottom: 0;
+}
+
 .login-cta {
-    margin-top: 2.5rem;
+    margin-top: 3.5rem;
     animation: tmFadeRise 0.5s ease-out 0.45s both;
 }
 
@@ -1356,13 +1379,16 @@
 }
 
 .order-card .order-name {
-    position: relative;
+    position: absolute;
     z-index: 1;
+    top: 0.75rem;
+    left: 0.75rem;
     font-family: 'Oswald', sans-serif;
-    font-weight: 700;
-    font-size: 1.2rem;
+    font-weight: 600;
+    font-size: 1rem;
     color: #ffffff;
-    padding: 0.75rem;
+    padding: 0;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.6);
 }
 
 .order-card .order-arrow {
@@ -1458,13 +1484,50 @@
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 0.4s ease, filter 0.4s ease;
-    filter: brightness(0.82);
+    transition: transform 0.4s ease;
 }
 
-.account-vitrine-col:hover img {
+.account-vitrine-col:hover > img {
     transform: scale(1.04);
-    filter: brightness(1);
+}
+
+.account-vitrine-col::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0);
+    pointer-events: none;
+    transition: background 0.3s ease;
+    z-index: 1;
+}
+
+.account-vitrine-col:hover::after {
+    background: rgba(0, 0, 0, 0.65);
+}
+
+.account-vitrine-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: scale(0.96);
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.account-vitrine-col:hover .account-vitrine-overlay {
+    opacity: 1;
+    transform: scale(1);
+}
+
+img.account-vitrine-logo {
+    width: 62%;
+    height: 64px;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
 }
 
 /* Bouton centré par-dessus la bande, identique au vitrine-cta home */
@@ -1540,15 +1603,7 @@
     z-index: 0;
 }
 
-.order-card .order-name {
-    position: relative;
-    z-index: 1;
-    font-family: 'Oswald', sans-serif;
-    font-weight: 700;
-    font-size: 1.3rem;
-    color: #ffffff;
-    padding: 1rem;
-}
+
 
 .order-card .order-arrow {
     position: absolute;
@@ -1594,7 +1649,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
-    margin-bottom: 2.5rem;
+    margin-bottom: 3rem;
 }
 
 .account-cta-row {
@@ -1604,7 +1659,7 @@
 }
 
 .account-block {
-    margin-bottom: 2.5rem;
+    margin-bottom: 3rem;
 }
 
 /* ----------------------------------------------------------------------------
